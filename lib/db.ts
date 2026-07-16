@@ -5,15 +5,30 @@ import { neon, neonConfig } from '@neondatabase/serverless';
 // internally over HTTP (no persistent TCP connection required).
 neonConfig.fetchConnectionCache = true;
 
-if (!process.env.DATABASE_URL) {
-  // We throw lazily (inside functions) rather than at import time in most
-  // files, but this module is only ever imported by server code, so it's
-  // safe to surface a clear error immediately if it's missing.
-  console.warn(
-    '[db] DATABASE_URL is not set. Add it in Vercel → Settings → Environment Variables.'
-  );
+type SqlFn = ReturnType<typeof neon>;
+
+let cachedSql: SqlFn | undefined;
+
+function getClient(): SqlFn {
+  if (cachedSql) return cachedSql;
+
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error(
+      'Missing DATABASE_URL environment variable. Set it in Vercel → Settings → Environment Variables, then redeploy.'
+    );
+  }
+
+  cachedSql = neon(connectionString);
+  return cachedSql;
 }
 
 // `sql` is a tagged-template query function: sql`SELECT * FROM users WHERE id = ${id}`
 // Parameters are automatically escaped — never build queries with string concatenation.
-export const sql = neon(process.env.DATABASE_URL || '');
+// The actual connection is created lazily on first use (see getClient above),
+// not at import time, so simply importing this file during `next build`
+// (which Next.js does to analyze every API route) never fails even if
+// DATABASE_URL isn't set yet.
+export const sql: SqlFn = ((...args: Parameters<SqlFn>) => {
+  return getClient()(...args);
+}) as SqlFn;
