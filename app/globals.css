@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  scrollbar-color: #333 #000;
+}
+
+body {
+  background: radial-gradient(ellipse at top, #0d0d0d 0%, #000000 60%);
+}
+
+/* Reusable primitives kept out of every component's className soup */
+@layer components {
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-paper/70 px-6 py-3
+      text-sm font-display font-medium tracking-widest uppercase text-paper
+      transition-all duration-200 hover:bg-paper hover:text-void
+      focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper
+      disabled:opacity-30 disabled:pointer-events-none;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-display
+      tracking-widest uppercase text-mist transition-colors duration-200 hover:text-paper
+      focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper;
+  }
+
+  .input-field {
+    @apply w-full border border-line bg-ink px-4 py-3 text-paper placeholder:text-mist/60
+      font-body tracking-wide focus:border-paper focus:outline-none transition-colors duration-200;
+  }
+
+  .panel {
+    @apply border border-line bg-panel/60 backdrop-blur-sm;
+  }
+
+  .eyebrow {
+    @apply font-display text-xs tracking-widest2 uppercase text-mist;
+  }
+}
