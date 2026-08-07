@@ -37,12 +37,12 @@ export interface GameConfig {
 
 export const GAMES: GameConfig[] = [
   {
-    id: "example-vr-game",
-    name: "Example VR Game",
-    downloadUrl: "https://example.com/download",
-    playfabTitleId: "1A2B3",
-    secretKeyEnvVar: "PLAYFAB_SECRET_EXAMPLE_VR_GAME",
-    tagline: "Replace this entry with your real game",
+    id: "scary-monk-two",
+    name: "Scary Monk",
+    downloadUrl: "https://discord.gg/fk69nZqWfU",
+    playfabTitleId: "312E0",
+    secretKeyEnvVar: "PLAYFAB_SECRET_SCARY_MONK_VR",
+    tagline: "Do You Like Big Scary, Maybe Even Scary Baboon? Well Scary Monk Is Sort Of a Mix Of Both! Different Style, But Similar Visuals. Scary Monk Consists Of Multiple Different Levels In Each Horror Category You Can Play, Ranging From Backrooms Or Dreamcore, All The Way To Traditional Horror!",
   },
 ];
 
